@@ -1,0 +1,76 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 레벨 표시용 TextView -->
+        <TextView
+            android:id="@+id/levelHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="레벨 1"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="#FFEB3B"
+            android:textColor="#000000" />
+
+        <!-- ViewPager2 for image sliding -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/imagePager"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- TabLayout for dots indicator -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <!-- 문제와 채점 이미지를 겹쳐 배치할 FrameLayout -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- 채점 이미지를 겹쳐서 배치할 ImageView -->
+            <ImageView
+                android:id="@+id/resultImage"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/codeBoxButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:text="코드 해설" />
+        </FrameLayout>
+
+        <!-- 모든 문제를 동적으로 추가할 LinearLayout -->
+        <LinearLayout
+            android:id="@+id/questionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <!-- 제출 버튼 -->
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제출"
+            android:layout_gravity="center_horizontal"
+            android:padding="16dp" />
+    </LinearLayout>
+</ScrollView>

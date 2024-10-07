@@ -1,0 +1,36 @@
+{
+  "levels": [
+    {
+      "level": 1,
+      "images" : ["noimage","noimage2","noimage3"],
+      "codeBox" : "코드 해설 abcasdasdadasdasdas",
+      "problems": [
+        {
+          "question": "1. 다음 중 네트워크 공격 유형이 아닌 것은?",
+          "choices": ["DoS", "DDoS", "SQL Injection", "Ping"],
+          "correctAnswer": 3,
+          "commentary": "코드의 calculate_hash 함수에서 hashlib.sha256() 을 사용하여 SHA-256 해시 알고리즘으로 파일의 무결성을 검사합니다."
+        },
+        {
+          "question": "2. SQL Injection은 어떤 방식의 공격인가?",
+          "choices": ["데이터베이스 조작", "서비스 거부", "버퍼 오버플로우", "암호화"],
+          "correctAnswer": 0,
+          "commentary" : "코드의 calculate_hash 함수에서 hashlib.sha256() 을 사용하여 SHA-256 해시 알고리즘으로 파일의 무결성을 검사합니다.2222"
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "images" : ["noimage","noimage2","noimage3"],
+      "codeBox" : "코드 해설2 abcasdasdadasdasdas",
+      "problems": [
+        {
+          "question": "1. XSS 공격은 어떤 상황에서 발생하는가?",
+          "choices": ["사용자 입력", "네트워크 스니핑", "리버스 엔지니어링", "피싱"],
+          "correctAnswer": 0,
+          "commentary" : "코드의 calculate_hash 함수에서 hashlib.sha256() 을 사용하여 SHA-256 해시 알고리즘으로 파일의 무결성을 검사합니다.3333"
+        }
+      ]
+    }
+  ]
+}

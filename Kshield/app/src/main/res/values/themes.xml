@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Kshield" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+
+        <!-- 기본 색상 및 속성 설정 -->
+        <item name="colorPrimary">#50B6A4</item>
+        <item name="colorPrimaryVariant">#50B6A4</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    </style>
+    <!-- 커스텀 버튼 스타일 -->
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">#50B6A4</item> <!-- 버튼 배경색 설정 -->
+        <item name="android:textColor">@color/white</item> <!-- 텍스트 색상 설정 -->
+    </style>
+
+    <style name="Theme.Kshield" parent="Base.Theme.Kshield" />
+</resources>

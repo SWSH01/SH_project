@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="412dp"
+    android:layout_height="512dp"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 첫 번째 박스 (Large Box with Scrollable Content) -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="16dp"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        android:elevation="4dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 박스 없이 텍스트를 추가할 공간 -->
+                <TextView
+                    android:id="@+id/additionalTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="여기에 추가 텍스트가 들어갑니다."
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    android:textColor="@android:color/black"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 두 번째 박스 대신 ScrollView를 사용해 스크롤 가능한 텍스트 영역 추가 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Question TextView -->
+            <TextView
+                android:id="@+id/contentTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="문제가 여기에 표시됩니다."
+                android:textSize="18sp"
+                android:padding="16dp" />
+
+
+            <!-- Choices RadioGroup -->
+            <RadioGroup
+                android:id="@+id/choicesGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <!-- Submit Button outside the scrollable box -->
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="제출"
+        android:layout_gravity="center_horizontal"
+        android:padding="16dp" />
+
+</LinearLayout>
