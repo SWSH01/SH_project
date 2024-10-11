@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
+
 public class subpage1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +32,16 @@ public class subpage1 extends AppCompatActivity {
         // Create 10 buttons with level text
         for (int i = 1; i <= 3; i++) {
             // Create a new Button for each level
-            Button levelButton = new Button(this);
+            MaterialButton levelButton = new MaterialButton(this);
             levelButton.setText("Level " + i);
             levelButton.setTextSize(18);
+            levelButton.setCornerRadius(90);
             levelButton.setPadding(16, 16, 16, 16);
 
             // Set layout parameters for each button
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    250
             );
             params.setMargins(0, 0, 0, 16);  // Add some margin between buttons
             levelButton.setLayoutParams(params);

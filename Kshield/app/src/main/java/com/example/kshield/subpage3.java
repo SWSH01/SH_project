@@ -1,12 +1,14 @@
 package com.example.kshield;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
 
 public class subpage3 extends AppCompatActivity {
     @Override
@@ -30,15 +32,16 @@ public class subpage3 extends AppCompatActivity {
         // Create 10 buttons with level text
         for (int i = 1; i <= 3; i++) {
             // Create a new Button for each level
-            Button levelButton = new Button(this);
+            MaterialButton levelButton = new MaterialButton(this);
             levelButton.setText("Level " + i);
+            levelButton.setCornerRadius(90);
             levelButton.setTextSize(18);
             levelButton.setPadding(16, 16, 16, 16);
 
             // Set layout parameters for each button
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    250
             );
             params.setMargins(0, 0, 0, 16);  // Add some margin between buttons
             levelButton.setLayoutParams(params);
@@ -49,7 +52,11 @@ public class subpage3 extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Show a message when the button is clicked
-                    Toast.makeText(subpage3.this, "레벨 " + level + " 클릭됨", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(subpage3.this, "레벨 " + level + " 클릭됨", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(subpage3.this, LevelActivity.class);
+                    intent.putExtra("level", level);
+                    intent.putExtra("subpage", 3);  // subpage 3 전달
+                    startActivity(intent);
                 }
             });
 

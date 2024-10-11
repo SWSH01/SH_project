@@ -8,15 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -180,30 +181,31 @@ public class LevelActivity extends AppCompatActivity {
             for (int i = 0; i < problemsArray.length(); i++) {
                 JSONObject problem = problemsArray.getJSONObject(i);
 
-                // FrameLayout 생성 (질문과 이미지를 겹쳐 배치)
-                FrameLayout frameLayout = new FrameLayout(this);
-                frameLayout.setLayoutParams(new FrameLayout.LayoutParams(
+                // RelativeLayout을 생성하여 TextView와 RadioGroup을 겹치지 않도록 설정
+                RelativeLayout relativeLayout = new RelativeLayout(this);
+                relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 // 질문을 표시할 TextView 생성
                 TextView questionTextView = new TextView(this);
-                FrameLayout.LayoutParams questionParams = new FrameLayout.LayoutParams(
+                RelativeLayout.LayoutParams questionParams = new RelativeLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                questionParams.leftMargin = 16;
-                questionParams.topMargin = 16;
-                questionParams.bottomMargin = 355; // 각 questionTextView 사이의 간격 설정
+                questionParams.setMargins(16, 45, 16, 16);  // TextView의 마진 설정
                 questionTextView.setLayoutParams(questionParams);
+                questionTextView.setId(View.generateViewId());  // TextView에 고유한 ID 설정
                 questionTextView.setText(problem.getString("question"));
-                questionTextView.setTextSize(18);
-                questionTextView.setPadding(16, 26, 16, 16);
+                questionTextView.setTextSize(17);
+                questionTextView.setPadding(16, 16, 16, 16);
 
                 // 선택지를 추가할 RadioGroup 생성
                 RadioGroup choicesGroup = new RadioGroup(this);
-                FrameLayout.LayoutParams choicesParams = new FrameLayout.LayoutParams(
+                RelativeLayout.LayoutParams choicesParams = new RelativeLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                choicesParams.topMargin = 175;  // RadioGroup의 위치를 TextView 아래로 조정
+                choicesParams.addRule(RelativeLayout.BELOW, questionTextView.getId());  // TextView 아래에 배치
+                choicesParams.setMargins(16, 2, 16, 16);  // RadioGroup과 TextView 사이에 여백 추가
                 choicesGroup.setLayoutParams(choicesParams);
                 choicesGroup.setOrientation(RadioGroup.VERTICAL);
+                choicesGroup.setId(View.generateViewId());  // RadioGroup에 고유한 ID 설정
 
                 // 선택지 추가
                 JSONArray choicesArray = problem.getJSONArray("choices");
@@ -213,43 +215,39 @@ public class LevelActivity extends AppCompatActivity {
                     choicesGroup.addView(choiceButton);
                 }
 
-                // 채점 이미지를 겹쳐서 추가할 ImageView 생성
+                // 채점 이미지를 추가할 ImageView 생성
                 ImageView resultImage = new ImageView(this);
-                FrameLayout.LayoutParams imageParams = new FrameLayout.LayoutParams(
+                RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(
                         500, 500);  // 이미지 크기 설정
-                imageParams.gravity = Gravity.START | Gravity.TOP;  // 왼쪽 위에 배치
-                imageParams.topMargin = 20;  // 상단 여백 조정 (값을 조정해 위치를 더 위로 설정)
-                imageParams.leftMargin = 16;  // 왼쪽 여백 조정
+                imageParams.addRule(RelativeLayout.ALIGN_PARENT_START);  // 왼쪽에 배치
+                imageParams.topMargin = 20;
                 resultImage.setLayoutParams(imageParams);
                 resultImage.setVisibility(View.GONE);  // 초기에는 보이지 않도록 설정
 
-                // "문제풀이" 버튼 추가
+                // 문제풀이 버튼 추가
                 Button solutionButton = new Button(this);
                 solutionButton.setText("문제풀이");
-                LinearLayout.LayoutParams solutionButtonParams = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams solutionButtonParams = new RelativeLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                solutionButtonParams.setMargins(0, 0, 0, 50);  // 상단, 하단 여백 추가
+                solutionButtonParams.addRule(RelativeLayout.BELOW, choicesGroup.getId());  // RadioGroup 아래에 배치
+                solutionButtonParams.setMargins(16, 32, 16, 50);  // RadioGroup과 문제풀이 버튼 사이의 여백 추가
                 solutionButton.setLayoutParams(solutionButtonParams);
-                solutionButton.setPadding(16, 16, 16, 16);
 
                 solutionButton.setOnClickListener(v -> {
                     // "문제풀이" 버튼을 클릭하면 commentary 내용을 팝업으로 표시
                     showCommentaryDialog(problem.optString("commentary", "해설이 없습니다."));
                 });
 
-
-                // FrameLayout에 질문 텍스트와 RadioGroup 추가
-                frameLayout.addView(questionTextView);
-                frameLayout.addView(choicesGroup);
-                frameLayout.addView(resultImage);  // 채점 이미지 추가
+                // RelativeLayout에 각 요소 추가
+                relativeLayout.addView(questionTextView);
+                relativeLayout.addView(choicesGroup);
+                relativeLayout.addView(resultImage);
+                relativeLayout.addView(solutionButton);
 
                 // 문제와 선택지를 Layout에 추가
-                questionContainer.addView(frameLayout);
+                questionContainer.addView(relativeLayout);
 
-                // 문제풀이 버튼을 RadioGroup 아래에 추가
-                questionContainer.addView(solutionButton);
-
-                // 각 문제마다 RadioGroup에 태그로 인덱스를 설정해두기 (나중에 정답 확인용)
+                // RadioGroup에 태그로 인덱스 설정해두기 (정답 확인용)
                 choicesGroup.setTag(i);
 
                 // 정답을 확인할 때 이미지를 표시하기 위해 resultImage를 태그로 저장
@@ -259,6 +257,7 @@ public class LevelActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     // 코드 해설을 보여주는 다이얼로그
     private void showCodeBoxDialog() {
@@ -366,47 +365,51 @@ public class LevelActivity extends AppCompatActivity {
 
 
     // 모든 문제의 정답을 확인하는 메소드 내에 다이얼로그 호출
+    // 모든 문제의 정답을 확인하는 메소드
     private void checkAllAnswers() {
         try {
             boolean allCorrect = true;
             boolean hasUnansweredQuestions = false;
 
+            // questionContainer에 있는 문제들을 확인
             for (int i = 0; i < questionContainer.getChildCount(); i++) {
                 View child = questionContainer.getChildAt(i);
 
-                if (child instanceof FrameLayout) {
-                    FrameLayout frameLayout = (FrameLayout) child;
-                    RadioGroup choicesGroup = (RadioGroup) frameLayout.getChildAt(1);
-                    int problemIndex = (int) choicesGroup.getTag();
+                // RelativeLayout을 사용하여 문제를 처리
+                if (child instanceof RelativeLayout) {
+                    RelativeLayout relativeLayout = (RelativeLayout) child;
+                    RadioGroup choicesGroup = (RadioGroup) relativeLayout.getChildAt(1); // 두 번째 자식인 RadioGroup을 가져옴
+                    int problemIndex = (int) choicesGroup.getTag(); // 문제 인덱스 가져오기
 
-                    // 선택한 답 확인
+                    // 선택한 답을 확인
                     int selectedId = choicesGroup.getCheckedRadioButtonId();
                     if (selectedId == -1) {
-                        hasUnansweredQuestions = true;
+                        hasUnansweredQuestions = true;  // 답을 선택하지 않은 문제가 있음
                         continue;
                     }
 
                     RadioButton selectedButton = findViewById(selectedId);
-                    int selectedAnswerIndex = choicesGroup.indexOfChild(selectedButton);
+                    int selectedAnswerIndex = choicesGroup.indexOfChild(selectedButton); // 선택된 버튼의 인덱스 가져오기
 
-                    // 정답 확인
+                    // JSON에서 정답을 확인
                     JSONObject problem = problemsArray.getJSONObject(problemIndex);
                     int correctAnswer = problem.getInt("correctAnswer");
 
-                    // 태그로 저장해둔 resultImage를 가져옴
+                    // 태그로 저장해둔 resultImage 가져오기
                     ImageView resultImage = (ImageView) choicesGroup.getTag(R.id.resultImage);
-                    resultImage.setVisibility(View.VISIBLE);  // 이미지 표시
+                    resultImage.setVisibility(View.VISIBLE);  // 채점 이미지 표시
 
                     // 정답 여부에 따라 채점 이미지 설정
                     if (selectedAnswerIndex == correctAnswer) {
-                        resultImage.setImageResource(R.drawable.correct);  // 정답 이미지
+                        resultImage.setImageResource(R.drawable.correct);  // 정답일 경우
                     } else {
-                        resultImage.setImageResource(R.drawable.wrong);  // 오답 이미지
-                        allCorrect = false;  // 하나라도 틀리면 allCorrect는 false
+                        resultImage.setImageResource(R.drawable.wrong);  // 오답일 경우
+                        allCorrect = false;  // 틀린 답이 있으면 allCorrect를 false로 설정
                     }
                 }
             }
 
+            // 결과에 따라 다이얼로그 표시
             if (hasUnansweredQuestions) {
                 showCustomDialog("모든 문제에 답을 선택해주세요.", false);
             } else if (allCorrect) {
