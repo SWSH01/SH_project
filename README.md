@@ -1,1 +1,1 @@
-# SH_project
+# KShield_jr_HackCher_App_프로젝트
